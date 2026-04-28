@@ -57,6 +57,22 @@ public class UserController {
 		
 		return mv;
 	}
+	// /Users/Delete
+	@RequestMapping("/Delete")
+	public ModelAndView delete( UserDto userDto ) {
+		
+		// 넘겨받은 자료를 출력
+		System.out.println( "userDto2:" + userDto );
+		
+		// DB 의 자료를 삭제
+		userMapper.deleteUser( userDto );
+		
+		// 목록으로 이동
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("redirect:/Users/List");
+		return mv;
+		
+	}
 	
 	
 

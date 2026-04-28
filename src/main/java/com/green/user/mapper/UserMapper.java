@@ -12,5 +12,7 @@ public interface UserMapper {
 	void insertUser(UserDto userDto);
 
 	List<UserDto> getUserList();
+
+	void deleteUser(UserDto userDto);
 	
 }
