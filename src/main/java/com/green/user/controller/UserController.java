@@ -74,6 +74,50 @@ public class UserController {
 		
 	}
 	
+	// http://localhost:8080/Users/UpdateForm?userid=sea
+	@RequestMapping("/UpdateForm")
+	public ModelAndView updateForm( UserDto userDto ) {
+		
+		// 넘어온 userDto 정보
+		System.out.println("넘어온 userDto : " + userDto);
+		
+		// 수정을 위해 DB에서 조회한 정보
+		UserDto user = userMapper.getUser( userDto );
+		System.out.println("조회된 userDto : " + user);
+		
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("users/update"); // update.jsp 로 가자
+		mv.addObject("user", user);
+		
+		return mv;
+	}
+	
+	@RequestMapping("/Update")
+	public ModelAndView update( UserDto userDto ) {
+		
+		userMapper.updateUser(userDto);
+		
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("redirect:/Users/List");
+		return mv;
+		
+		
+		
+	}
 	
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

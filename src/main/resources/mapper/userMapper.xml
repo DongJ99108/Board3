@@ -19,10 +19,10 @@ namespace = "com.green.user.mapper.UserMapper" : interface 위치
 	    EMAIL,
 	    UPOINT,
 	    REGDATE
-	) VALUES ( 	#{ userid   },
+	) VALUES ( 	#{  userid  },
 			    #{ password },
 			    #{ username },
-			    #{ email    },
+			    #{   email  },
 			    1000         ,
 			    sysdate      )
 	  
@@ -40,11 +40,36 @@ namespace = "com.green.user.mapper.UserMapper" : interface 위치
 		    TUSER
 		ORDER BY USERID ASC
 	</select>
+	
+	<select id="getUser">
+	  SELECT
+		    USERID,
+		    PASSWORD,
+		    USERNAME,
+		    EMAIL,
+		    UPOINT,
+		    TO_CHAR(REGDATE, 'YYYY-MM-DD HH24:MI:SS') REGDATE
+		FROM
+		    TUSER
+		WHERE
+			USERID = #{ userid }
+	</select>
 
 	<!-- 사용자 삭제 -->
 	<delete id="deleteUser">
 	  DELETE FROM TUSER WHERE USERID = #{ userid }
 	</delete>
+	
+	<update id="updateUser">
+	  
+	  UPDATE TUSER
+	   SET   PASSWORD =  #{ password },
+	         USERNAME =  #{ username },
+	         EMAIL    =  #{ email }
+	   WHERE USERID   =  #{ userid }
+	  
+	  
+	</update>
 	
   
 </mapper>
