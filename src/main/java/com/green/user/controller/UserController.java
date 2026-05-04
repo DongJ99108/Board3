@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.green.user.dto.UserDto;
@@ -104,6 +106,48 @@ public class UserController {
 		
 		
 	}
+	
+	// 아이디 중복확인 - 결과문자열을 리턴 : 
+	// <b class="green">사용가능한 아이디입니다</b>
+	// <b class="red">사용할 수 없는 아이디입니다</b>
+	// /Users/IdDupCheck2?userid=sky
+	@GetMapping("/IdDupCheck2")
+	@ResponseBody // return 되는 글자는 jsp 가 아니다
+	public UserDto idDupCheck2( UserDto userDto ) {
+		
+		// String  userid    = userDto.getUserid();                   // 넘어온 userid
+		UserDto user      = userMapper.getIdDupCheck( userDto );   // 조회한 userid
+		if( user == null )
+			user = new UserDto();
+		return user;
+		
+	}
+	// /Users/DupCheckWindow
+	@GetMapping("/DupCheckWindow")
+	public ModelAndView dupCheckWindow() {
+		
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("users/idcheck");
+		return mv;
+	}
+	
+	// 중복확인
+	// /Users/DupCheck?userid=aaa
+	@RequestMapping("/DupCheck")
+	public ModelAndView dupCheck(UserDto userDto) {
+		
+		UserDto user = userMapper.getUser(userDto);
+		String  msg  = "<b class='red'>사용할 수 없는 아이디입니다.</b>";
+		if( user == null ) {
+			msg = "<b class='green'>사용 가능한 아이디입니다.</b>";
+		};
+		
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("users/idcheck");
+		mv.addObject("msg", msg);
+		return mv;
+	}
+	
 	
 
 }
